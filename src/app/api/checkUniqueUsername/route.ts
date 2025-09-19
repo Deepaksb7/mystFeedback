@@ -1,6 +1,6 @@
 import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/User";
-import { success, z } from "zod"
+import { z } from "zod"
 import { usernameValidation } from "@/schemas/signupSchema";
 
 const UsernameQuerySchema = z.object({
@@ -22,11 +22,11 @@ export async function GET(request: Request) {
         console.log(result)
 
         if (!result.success) {
-            const tree = z.treeifyError(result.error);
-            const usernameErrors = tree.properties?.username?.errors || [];
+            const formatted = result.error.format();
+            const usernameErrors = formatted.username?._errors || [];
             return Response.json({
                 success:false,
-                message:usernameErrors?.length > 0 ? usernameErrors.join(",") : "Invalid query parameter"
+                message:usernameErrors.length > 0 ? usernameErrors.join(",") : "Invalid query parameter"
             },{status:400})
         }
 

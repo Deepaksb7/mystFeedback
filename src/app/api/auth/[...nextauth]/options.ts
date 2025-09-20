@@ -7,7 +7,7 @@ import UserModel from "@/model/User";
 export const authOptions: NextAuthOptions = {
     providers:[
         CredentialsProvider({
-            id:"credentials",
+            id:"Credentials",
             name:"Credentials",
             credentials:{
                 email:{label:"Email",type:"text"},
@@ -18,10 +18,12 @@ export const authOptions: NextAuthOptions = {
                 try {
                     const user = await UserModel.findOne({
                         $or : [
-                            {email: credentials.identifier},
-                            {username: credentials.identifier},
+                            {email: credentials.email},
+                            {username: credentials.email},
                         ]
                     })
+                    console.log("authorize() called with:", credentials);
+
                     if (!user){
                         throw new Error("No user found with this email")
                     }

@@ -79,6 +79,5 @@ export async function GET(request:Request){
             message:"Error in getting message acceptance status"
         },{status:500})
     }
-
 }
 

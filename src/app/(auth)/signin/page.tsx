@@ -90,7 +90,7 @@ const page = () => {
           <div className="text-center mt-4">
             <p>
               Already a member?{" "}
-              <Link href={"/signin"} className="text-blue-600 hover:text-blue-800">Sign in</Link>
+              <Link href={"/signup"} className="text-blue-600 hover:text-blue-800">Signup</Link>
             </p>
 
           </div>

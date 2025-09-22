@@ -66,7 +66,7 @@ const Page = () => {
       console.error("Error in signup of user")
       const axiosError = error as AxiosError<ApiResponse>;
       const errorMessage = axiosError.response?.data.message;
-      toast.error("Signup failed" || errorMessage)
+      toast.error(errorMessage || "Signup failed")
       setIsSubmiting(false)
     }
   }

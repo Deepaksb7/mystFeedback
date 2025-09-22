@@ -10,7 +10,7 @@ export const authOptions: NextAuthOptions = {
             id:"Credentials",
             name:"Credentials",
             credentials:{
-                email:{label:"Email",type:"text"},
+                identifier:{label:"Email",type:"text"},
                 password:{label:"Password",type:"password"}
             },
             async authorize(credentials:any):Promise<any>{
@@ -18,8 +18,8 @@ export const authOptions: NextAuthOptions = {
                 try {
                     const user = await UserModel.findOne({
                         $or : [
-                            {email: credentials.email},
-                            {username: credentials.email},
+                            {email: credentials.identifier},
+                            {username: credentials.identifier},
                         ]
                     })
                     console.log("authorize() called with:", credentials);

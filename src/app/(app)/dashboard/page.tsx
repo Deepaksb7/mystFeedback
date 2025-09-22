@@ -26,7 +26,10 @@ const page = () => {
   const { data:session } = useSession()
 
   const form = useForm({
-    resolver:zodResolver(acceptMessageSchema)
+    resolver:zodResolver(acceptMessageSchema),
+    defaultValues: {
+      acceptMessages: false
+    }
   })
 
   const {register, watch ,setValue} = form
@@ -37,7 +40,7 @@ const page = () => {
     setIsSwitchLoading(true)
     try {
       const response = await axios.get<ApiResponse>("/api/acceptmessages")
-      setValue("acceptMessages",response.data.isAcceptingMessage ?? false)
+      setValue("acceptMessages",response.data.isAcceptingMessages ?? false)
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>
       toast.error(axiosError.response?.data.message || "Failed to fetch message settings")
@@ -82,6 +85,10 @@ const page = () => {
       toast.error(axiosError.response?.data.message || "Failed to fetch message settings")
     }
   }
+  
+  if (!session || !session.user){
+    return <div>Please login</div>
+  }
 
   const {username} = session?.user as User
   const baseUrl = `${window.location.protocol}//${window.location.host}`
@@ -92,9 +99,6 @@ const page = () => {
     toast("Url Copied")
   }
 
-  if (!session || !session.user){
-    return <div>Please login</div>
-  }
 
   return (
     <div className="my-8 mx-4 md:mx-8 lg:mx-auto p-6 bg-white rounded w-full max-w-6xl">
@@ -107,7 +111,7 @@ const page = () => {
             type="text"
             value={profileUrl}
             disabled
-            className="input input-bordered w-full p-2 mr-2"
+            className="flex-1 px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-600 mr-2"
           />
           <Button onClick={copyToClipboard}>Copy</Button>
         </div>

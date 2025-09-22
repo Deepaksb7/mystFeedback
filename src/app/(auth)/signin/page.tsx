@@ -3,20 +3,14 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 import Link from "next/link"
-import { useDebounceValue,useDebounceCallback } from 'usehooks-ts'
-import axios, { AxiosError } from "axios"
 import React, { useEffect, useState } from 'react'
 import { useRouter } from "next/navigation"
-import { signupSchema } from "@/schemas/signupSchema"
-import { ApiResponse } from "@/types/apiResponse"
 import { toast } from "sonner"
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { LoaderCircle } from 'lucide-react';
 import { signinSchema } from "@/schemas/signinSchema"
 import { signIn } from "next-auth/react"
-import Credentials from "next-auth/providers/credentials"
 
 const page = () => {
   const [isSubmiting, setIsSubmiting] = useState(false)

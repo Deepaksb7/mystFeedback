@@ -156,7 +156,7 @@ export default function SendMessage() {
             )}
           </CardContent>
         </Card>
-      </div>
+      </div>  
       <Separator className="my-6" />
       <div className="text-center">
         <div className="mb-4">Get Your Message Board</div>

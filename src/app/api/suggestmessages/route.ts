@@ -2,7 +2,7 @@ import { openai } from '@ai-sdk/openai';
 import { generateText } from 'ai';
 import { NextResponse } from 'next/server';
 
-export async function POST(req: Request) {
+export async function POST() {
     try {
         const { text } = await generateText({
             model: openai('gpt-3.5-turbo'),

@@ -3,19 +3,19 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 import Link from "next/link"
-import { useDebounceValue,useDebounceCallback } from 'usehooks-ts'
+import { useDebounceCallback } from 'usehooks-ts'
 import axios, { AxiosError } from "axios"
 import React, { useEffect, useState } from 'react'
 import { useRouter } from "next/navigation"
 import { signupSchema } from "@/schemas/signupSchema"
 import { ApiResponse } from "@/types/apiResponse"
 import { toast } from "sonner"
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { LoaderCircle } from 'lucide-react';
 
-const page = () => {
+const Page = () => {
   const [username, setUsername] = useState("")
   const [usernameMessage, setUsernameMessage] = useState("")
   const [isCheckingUsername, setIsCheckingUsername] = useState(false)
@@ -65,8 +65,8 @@ const page = () => {
     } catch (error) {
       console.error("Error in signup of user")
       const axiosError = error as AxiosError<ApiResponse>;
-      let errorMessage = axiosError.response?.data.message ?? "Error checking username"
-      toast.error("Signup failed")
+      const errorMessage = axiosError.response?.data.message;
+      toast.error("Signup failed" || errorMessage)
       setIsSubmiting(false)
     }
   }
@@ -154,4 +154,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

@@ -2,12 +2,21 @@ import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials"
 import bcrypt from "bcryptjs";
 import dbConnect from "@/lib/dbConnect";
-import UserModel from "@/model/User";
+import UserModel, { User } from "@/model/User";
 
 interface Credentials {
     identifier: string;
     password: string;
   }
+
+  interface AuthUser {
+    id: string;
+    email: string;
+    username: string;
+    isVerified: boolean;
+    isAcceptingMessage: boolean;
+  }
+  
   
 export const authOptions: NextAuthOptions = {
     providers:[
@@ -18,7 +27,7 @@ export const authOptions: NextAuthOptions = {
                 identifier:{label:"Email",type:"text"},
                 password:{label:"Password",type:"password"}
             },
-            async authorize(credentials?:Credentials):Promise<any>{
+            async authorize(credentials?:Credentials):Promise<AuthUser | null>{
                 if (!credentials) {
                     throw new Error("No credentials provided")
                   }
@@ -43,7 +52,7 @@ export const authOptions: NextAuthOptions = {
                     const isPasswordCorrect = await bcrypt.compare(credentials.password, user.password)
 
                     if (isPasswordCorrect){
-                        return user
+                        return user as AuthUser
                     }else{
                         throw new Error("Incorrect password")
                     }
@@ -60,7 +69,7 @@ export const authOptions: NextAuthOptions = {
             if (user){
                 token._id = user._id?.toString()
                 token.isVerified = user.isVerified
-                token.isAcceptingMessages = user.isAcceptingMessages
+                token.isAcceptingMessage = user.isAcceptingMessages
                 token.username = user.username
             }
             return token
@@ -69,7 +78,7 @@ export const authOptions: NextAuthOptions = {
             if(token){
                 session.user._id = token._id
                 session.user.isVerified = token.isVerified
-                session.user.isAcceptingMessages = token.isAcceptingMessages
+                session.user.isAcceptingMessage = token.isAcceptingMessage
                 session.user.username = token.username
             }
             return session
